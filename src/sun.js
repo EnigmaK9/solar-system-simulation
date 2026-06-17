@@ -153,6 +153,7 @@ function createSunSurface(texture) {
       varying vec3 vNormal;
       varying vec3 vPosition;
       varying vec3 vWorldPos;
+      uniform float uTime;
 
       // Pseudo-random hash function for noise generation
       float hash(vec3 p) {
