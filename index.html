@@ -162,5 +162,27 @@
     type="module" enables ES imports and strict mode.
   -->
   <script type="module" src="./src/main.js"></script>
+
+  <!-- Diagnostic: catch WebGL / module load failures -->
+  <script>
+    window.onerror = function(msg, url, line) {
+      var el = document.getElementById('hud');
+      if (el) el.innerHTML += '<div style="color:#f44;font-size:12px;margin-top:8px;">JS Error: ' + msg + '</div>';
+    };
+    // Check after a short delay if canvas appeared
+    setTimeout(function() {
+      var canvas = document.querySelector('canvas');
+      if (!canvas) {
+        var el = document.getElementById('hud');
+        if (el) el.innerHTML += '<div style="color:#f44;font-size:12px;margin-top:8px;">No WebGL canvas — check console (F12)</div>';
+      } else {
+        var gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        if (!gl) {
+          var el = document.getElementById('hud');
+          if (el) el.innerHTML += '<div style="color:#f44;font-size:12px;margin-top:8px;">WebGL not supported in this browser</div>';
+        }
+      }
+    }, 5000);
+  </script>
 </body>
 </html>
